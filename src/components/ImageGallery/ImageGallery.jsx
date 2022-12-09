@@ -22,11 +22,8 @@ const ImageGallery = ({ images }) => {
 
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       id: PropTypes.number.isRequired,
-      largeImageURL: PropTypes.string.isRequired,
-      tags: PropTypes.string.isRequired,
-      webformatURL: PropTypes.string.isRequired,
     })
   ),
 };

@@ -7,12 +7,11 @@ url.searchParams.append('image_type', 'photo');
 url.searchParams.append('orientation', 'horizontal');
 url.searchParams.append('per_page', '12');
 
-export async function fetchImage(query, pageNumber) {
+export async function fetchImage(query, pageNumber = 1) {
   const fetchImageUrl = new window.URL(url);
   fetchImageUrl.searchParams.append('q', query);
   fetchImageUrl.searchParams.append('page', pageNumber);
    
-
   try {
       const response = await axios.get(fetchImageUrl.toString());
     return response.data;

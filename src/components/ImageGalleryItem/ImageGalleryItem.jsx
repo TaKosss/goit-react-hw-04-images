@@ -1,66 +1,53 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import Modal from 'components/Modal';
+import { useState, useEffect } from 'react';
+
 import { ImageGalleryCard, ImageGalleryImg } from './ImageGalleryItem.styled';
 
-class ImageGalleryItem extends Component {
-  state = { showModal: false };
+const ImageGalleryItem = ({ imageUrl, alt, largeImageURL }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+  useEffect(() => {
+    if (isModalOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    window.removeEventListener('keydown', handleKeyDown);
+  });
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = e => {
+  const handleKeyDown = e => {
     if (e.code === 'Escape') {
-      this.onCloseModal();
+      closeModal();
     }
   };
 
-  onCloseModal = () => {
-    this.setState({ showModal: false });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  handleBackdropClick = e => {
-    if (e.currentTarget === e.target) {
-      this.onCloseModal();
-    }
+  const handleBackdropClick = e => {
+    if (e.currentTarget === e.target) closeModal();
   };
-  currentImgClickHandler = e => {
-    this.setState({ showModal: true });
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  render() {
-    const { imageUrl, alt, id, largeImageURL } = this.props;
-    const { showModal } = this.state;
-
-    return (
-      <ImageGalleryCard>
-        <ImageGalleryImg
-          src={imageUrl}
+  return (
+    <ImageGalleryCard>
+      <ImageGalleryImg src={imageUrl} alt={alt} onClick={openModal} />
+      {isModalOpen && (
+        <Modal
+          handleBackdropClick={handleBackdropClick}
+          imageUrl={largeImageURL}
           alt={alt}
-          id={id}
-          onClick={this.currentImgClickHandler}
         />
-        {showModal && (
-          <Modal
-            handleBackdropClick={this.handleBackdropClick}
-            imageUrl={largeImageURL}
-            alt={alt}
-          />
-        )}
-      </ImageGalleryCard>
-    );
-  }
-}
+      )}
+    </ImageGalleryCard>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
   largeImageURL: PropTypes.string.isRequired,
 };
 

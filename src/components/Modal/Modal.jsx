@@ -4,11 +4,11 @@ import { Overlay, ImgModal } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-const Modal = ({ imageUrl, alt, handleBackdropClick }) => {
+const Modal = ({ imageUrl, tags, handleBackdropClick }) => {
   return createPortal(
     <Overlay onClick={handleBackdropClick}>
       <ImgModal>
-        <img src={imageUrl} alt={alt} />
+        <img src={imageUrl} alt={tags} />
       </ImgModal>
     </Overlay>,
     modalRoot
