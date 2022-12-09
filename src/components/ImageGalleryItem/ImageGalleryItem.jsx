@@ -10,8 +10,7 @@ const ImageGalleryItem = ({ imageUrl, alt, largeImageURL }) => {
   useEffect(() => {
     if (isModalOpen) {
       window.addEventListener('keydown', handleKeyDown);
-    }
-    window.removeEventListener('keydown', handleKeyDown);
+    } else window.removeEventListener('keydown', handleKeyDown);
   });
 
   const handleKeyDown = e => {
